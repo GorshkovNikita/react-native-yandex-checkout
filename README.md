@@ -19,7 +19,7 @@
 2. Append the following lines to `android/settings.gradle`:
   	```
   	include ':react-native-yandex-checkout'
-  	project(':react-native-yandex-checkout').projectDir = new File(rootProject.projectDir, 	'../node_modules/react-native-react-native-yandex-checkout/android')
+  	project(':react-native-yandex-checkout').projectDir = new File(rootProject.projectDir, 	'../node_modules/react-native-yandex-checkout/android')
   	```
 3. Insert the following lines inside the dependencies block in `android/app/build.gradle`:
   	```
