@@ -3,7 +3,10 @@ import { NativeModules } from 'react-native';
 const { RNReactNativeYandexCheckout } = NativeModules;
 
 export default {
-    attachCheckout: function () {
-        RNReactNativeYandexCheckout.attachCheckout();
+    attach: function (settings) {
+        RNReactNativeYandexCheckout.attach(settings);
+    },
+    tokenize: function (amount) {
+        RNReactNativeYandexCheckout.tokenize(amount)
     }
 };
