@@ -37,7 +37,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.facebook.react:react-native:0.55.0'
+    compile 'com.facebook.react:react-native:+'
     compile 'com.yandex.money:checkout:1.3.0'
     compile 'com.yandex.android:authsdk:2.1.0'
 }

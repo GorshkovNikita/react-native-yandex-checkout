@@ -7,6 +7,9 @@ export default {
         RNReactNativeYandexCheckout.attach(settings);
     },
     tokenize: function (amount) {
-        RNReactNativeYandexCheckout.tokenize(amount)
+        RNReactNativeYandexCheckout.tokenize(amount);
+    },
+    detach: function () {
+        RNReactNativeYandexCheckout.detach();
     }
 };
