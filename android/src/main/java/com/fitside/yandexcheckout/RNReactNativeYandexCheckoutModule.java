@@ -3,6 +3,7 @@ package com.fitside.yandexcheckout;
 import android.support.v7.app.AppCompatActivity;
 
 import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -51,31 +52,25 @@ public class RNReactNativeYandexCheckoutModule extends ReactContextBaseJavaModul
         );
 
         AppCompatActivity activity = (AppCompatActivity) getCurrentActivity();
-        if (activity != null) {
-            Checkout.attach(activity.getSupportFragmentManager());
-            Checkout.setResultCallback((paymentToken, type) -> {
-                WritableMap params = Arguments.createMap();
-                params.putString("paymentToken", paymentToken);
-                params.putString("methodType", type.name());
-                reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                        .emit("checkoutTokenized", params);
-            });
-        }
+        if (activity != null) Checkout.attach(activity.getSupportFragmentManager());
     }
 
     @ReactMethod
-    public void tokenize(String amount) {
-//        Checkout.configureTestMode(
-//                new Configuration(
-//                        true, false, false, 1, false, false
-//                )
-//        );
+    public void tokenize(final String amount, final WritableMap metadata, Callback callback) {
+        Checkout.setResultCallback((paymentToken, type) -> {
+            WritableMap params = Arguments.createMap();
+            params.putString("paymentToken", paymentToken);
+            params.putString("methodType", type.name());
+            params.putMap("metadata", metadata);
+            callback.invoke(params);
+        });
 
         Checkout.tokenize(
                 reactContext,
                 new Amount(new BigDecimal(amount), Currency.getInstance("RUB")),
                 shopParameters
         );
+
     }
 
     @ReactMethod
