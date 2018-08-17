@@ -47,7 +47,7 @@ public class RNReactNativeYandexCheckoutModule extends ReactContextBaseJavaModul
                 methodTypes,
                 methodTypes.contains(PaymentMethodType.GOOGLE_PAY),
                 settings.getString("shopId"),
-                settings.getString("shopId"),
+                settings.getString("gatewayId"),
                 settings.getBoolean("showLogo")
         );
 
