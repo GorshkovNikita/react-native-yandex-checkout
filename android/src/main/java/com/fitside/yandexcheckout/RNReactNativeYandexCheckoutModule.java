@@ -23,6 +23,7 @@ import javax.annotation.Nullable;
 
 import ru.yandex.money.android.sdk.Amount;
 import ru.yandex.money.android.sdk.Checkout;
+import ru.yandex.money.android.sdk.Configuration;
 import ru.yandex.money.android.sdk.PaymentMethodType;
 import ru.yandex.money.android.sdk.ShopParameters;
 
@@ -30,6 +31,7 @@ public class RNReactNativeYandexCheckoutModule extends ReactContextBaseJavaModul
 
     private final ReactApplicationContext reactContext;
     private ShopParameters shopParameters;
+    private boolean testMode = false;
 
     public RNReactNativeYandexCheckoutModule(ReactApplicationContext reactContext) {
         super(reactContext);
@@ -51,12 +53,20 @@ public class RNReactNativeYandexCheckoutModule extends ReactContextBaseJavaModul
                 settings.getBoolean("showLogo")
         );
 
+        this.testMode = settings.getBoolean("testMode");
+
         AppCompatActivity activity = (AppCompatActivity) getCurrentActivity();
         if (activity != null) Checkout.attach(activity.getSupportFragmentManager());
     }
 
     @ReactMethod
     public void tokenize(final String amount, final ReadableMap metadata, Callback callback) {
+        if (testMode) {
+            Checkout.configureTestMode(
+                    new Configuration(true, false, false, 1, false, false)
+            );
+        }
+
         Checkout.setResultCallback((paymentToken, type) -> {
             WritableMap params = Arguments.createMap();
             WritableMap responseMetadata = Arguments.createMap();
