@@ -56,12 +56,14 @@ public class RNReactNativeYandexCheckoutModule extends ReactContextBaseJavaModul
     }
 
     @ReactMethod
-    public void tokenize(final String amount, final WritableMap metadata, Callback callback) {
+    public void tokenize(final String amount, final ReadableMap metadata, Callback callback) {
         Checkout.setResultCallback((paymentToken, type) -> {
             WritableMap params = Arguments.createMap();
+            WritableMap responseMetadata = Arguments.createMap();
+            responseMetadata.merge(metadata);
             params.putString("paymentToken", paymentToken);
             params.putString("methodType", type.name());
-            params.putMap("metadata", metadata);
+            params.putMap("metadata", responseMetadata);
             callback.invoke(params);
         });
 
